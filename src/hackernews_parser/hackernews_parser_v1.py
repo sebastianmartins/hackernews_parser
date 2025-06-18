@@ -32,9 +32,14 @@ Example data structure:
 """
 
 import json
-from parser.entities.v1 import HackerNewsComment, HackerNewsData, HackerNewsStory
 from pathlib import Path
 from typing import Any, Dict, Optional
+
+from hackernews_parser.entities.v1 import (
+    HackerNewsComment,
+    HackerNewsData,
+    HackerNewsStory,
+)
 
 
 class HackerNewsParserV1:

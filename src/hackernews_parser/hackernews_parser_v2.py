@@ -53,7 +53,10 @@ Example data structure:
 }
 """
 
-from parser.entities.v2 import (
+from pathlib import Path
+from typing import Any, Dict
+
+from hackernews_parser.entities.v2 import (
     DatasetMetrics,
     HackerNewsComment,
     HackerNewsData,
@@ -61,9 +64,7 @@ from parser.entities.v2 import (
     SentimentAnalysis,
     StoryRelationships,
 )
-from parser.hackernews_parser_v1 import HackerNewsParserV1
-from pathlib import Path
-from typing import Any, Dict
+from hackernews_parser.hackernews_parser_v1 import HackerNewsParserV1
 
 
 class HackerNewsParserV2(HackerNewsParserV1):

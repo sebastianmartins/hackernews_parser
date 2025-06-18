@@ -1,7 +1,9 @@
 from dataclasses import dataclass
-from parser.entities.v1 import HackerNewsComment as V1Comment
-from parser.entities.v1 import HackerNewsStory as V1Story
 from typing import List, Optional
+
+from hackernews_parser.entities.v1 import HackerNewsComment as V1Comment
+from hackernews_parser.entities.v1 import HackerNewsData as V1Data
+from hackernews_parser.entities.v1 import HackerNewsStory as V1Story
 
 
 @dataclass
@@ -21,7 +23,7 @@ class SentimentAnalysis:
 
 
 @dataclass
-class HackerNewsComment:
+class HackerNewsComment(V1Comment):
     """
     Represents a comment in the HackerNews data structure with sentiment analysis.
     Extends the v1 comment structure with additional sentiment information.
@@ -34,10 +36,6 @@ class HackerNewsComment:
         sentiment (SentimentAnalysis): Sentiment analysis results for the comment
     """
 
-    id: str
-    author: str
-    timestamp: str
-    text: str
     sentiment: SentimentAnalysis
 
     @classmethod
@@ -80,7 +78,7 @@ class StoryRelationships:
 
 
 @dataclass
-class HackerNewsStory:
+class HackerNewsStory(V1Story):
     """HackerNews data structure with sentiment analysis and relationship metrics.
 
     Represents a story in the HackerNews data structure with sentiment analysis
@@ -101,15 +99,6 @@ class HackerNewsStory:
         relationships (StoryRelationships): Relationship and engagement metrics
     """
 
-    id: str
-    title: str
-    url: str
-    domain: str
-    author: str
-    timestamp: str
-    points: int
-    rank: int
-    comments: List[HackerNewsComment]
     sentiment: SentimentAnalysis
     relationships: StoryRelationships
 
@@ -168,7 +157,7 @@ class DatasetMetrics:
 
 
 @dataclass
-class HackerNewsData:
+class HackerNewsData(V1Data):
     """
     Complete HackerNews dataset in version 2 format.
     Extends the v1 data structure with additional metrics.
@@ -180,7 +169,4 @@ class HackerNewsData:
         metrics (DatasetMetrics): Overall dataset metrics
     """
 
-    version: str
-    timestamp: str
-    stories: List[HackerNewsStory]
     metrics: DatasetMetrics
