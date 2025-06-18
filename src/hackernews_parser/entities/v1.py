@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import Sequence
 
 
 @dataclass
@@ -34,7 +34,7 @@ class HackerNewsStory:
         timestamp (str): ISO format timestamp of when the story was posted
         points (int): Number of upvotes
         rank (int): Position on the front page
-        comments (List[HackerNewsComment]): List of comments on the story
+        comments (Sequence[HackerNewsComment]): Sequence of comments on the story
     """
 
     id: str
@@ -45,7 +45,7 @@ class HackerNewsStory:
     timestamp: str
     points: int
     rank: int
-    comments: List[HackerNewsComment]
+    comments: Sequence[HackerNewsComment]
 
 
 @dataclass
@@ -56,9 +56,9 @@ class HackerNewsData:
     Attributes:
         version (str): Version of the data format
         timestamp (str): When the data was scraped
-        stories (List[HackerNewsStory]): List of stories
+        stories (Sequence[HackerNewsStory]): Sequence of stories
     """
 
     version: str
     timestamp: str
-    stories: List[HackerNewsStory]
+    stories: Sequence[HackerNewsStory]

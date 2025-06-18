@@ -1,5 +1,5 @@
-from dataclasses import dataclass
-from typing import List, Optional
+from dataclasses import asdict, dataclass
+from typing import Optional, Sequence
 
 from hackernews_parser.entities.v1 import HackerNewsComment as V1Comment
 from hackernews_parser.entities.v1 import HackerNewsData as V1Data
@@ -14,12 +14,12 @@ class SentimentAnalysis:
     Attributes:
         score (float): Sentiment score between -1.0 (negative) and 1.0 (positive)
         confidence (float): Confidence in the sentiment analysis between 0.0 and 1.0
-        aspects (List[str]): List of sentiment aspects identified in the text
+        aspects (Sequence[str]): Sequence of sentiment aspects identified in the text
     """
 
     score: float
     confidence: float
-    aspects: List[str]
+    aspects: Sequence[str]
 
 
 @dataclass
@@ -94,7 +94,7 @@ class HackerNewsStory(V1Story):
         timestamp (str): ISO format timestamp of when the story was posted
         points (int): Number of upvotes
         rank (int): Position on the front page
-        comments (List[HackerNewsComment]): List of comments on the story
+        comments (Sequence[HackerNewsComment]): Sequence of comments on the story
         sentiment (SentimentAnalysis): Sentiment analysis results for the story
         relationships (StoryRelationships): Relationship and engagement metrics
     """
@@ -117,7 +117,7 @@ class HackerNewsStory(V1Story):
             HackerNewsStory: A new v2 story with the v1 data and optional sentiment
         """
         v2_comments = [
-            HackerNewsComment.from_v1(comment) for comment in v1_story.comments
+            HackerNewsComment(**asdict(comment)) for comment in v1_story.comments
         ]
         comment_count = len(v2_comments)
         if comment_count > 0:
@@ -177,7 +177,7 @@ class HackerNewsData(V1Data):
     Attributes:
         version (str): Version of the data format
         timestamp (str): When the data was scraped
-        stories (List[HackerNewsStory]): List of stories
+        stories (Sequence[HackerNewsStory]): Sequence of stories
         metrics (DatasetMetrics): Overall dataset metrics
     """
 
