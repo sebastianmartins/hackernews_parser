@@ -31,7 +31,6 @@ Example data structure:
 }
 """
 
-import json
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -40,6 +39,7 @@ from hackernews_parser.entities.v1 import (
     HackerNewsData,
     HackerNewsStory,
 )
+from hackernews_parser.utils import load_json
 
 
 class HackerNewsParserV1:
@@ -51,7 +51,7 @@ class HackerNewsParserV1:
     for parsing both individual stories and comments, as well as the complete dataset.
     """
 
-    def __init__(self, data_path: Path):
+    def __init__(self, data_path: Optional[Path] = None):
         """
         Initialize the parser with the path to the data file.
 
@@ -61,7 +61,7 @@ class HackerNewsParserV1:
         self.data_path = data_path
         self._data: Optional[Dict[str, Any]] = None
 
-    def _load_data(self) -> Dict[str, Any]:
+    def _load_data(self, data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Load and parse the JSON data from the file.
 
@@ -72,9 +72,13 @@ class HackerNewsParserV1:
             FileNotFoundError: If the data file doesn't exist
             json.JSONDecodeError: If the file contains invalid JSON
         """
-        if self._data is None:
-            with open(self.data_path, "r") as f:
-                self._data = json.load(f)
+        if data is not None:
+            self._data = data
+        elif self._data is None:
+            if self.data_path is None:
+                raise ValueError("`data` is required if `data_path` is not provided")
+            else:
+                self._data = load_json(self.data_path)
         return self._data
 
     def _parse_comment(self, comment_data: Dict[str, Any]) -> HackerNewsComment:
@@ -119,7 +123,7 @@ class HackerNewsParserV1:
             ],
         )
 
-    def parse(self) -> HackerNewsData:
+    def parse(self, data: Optional[Dict[str, Any]] = None) -> HackerNewsData:
         """
         Parse the complete dataset from the data file.
 
@@ -131,7 +135,7 @@ class HackerNewsParserV1:
             json.JSONDecodeError: If the file contains invalid JSON
             KeyError: If required fields are missing from the data
         """
-        data = self._load_data()
+        data = self._load_data(data)
         return HackerNewsData(
             version=data["version"],
             timestamp=data["timestamp"],
@@ -160,6 +164,7 @@ def main(data_file: str):
     Args:
         data_file (str): Path to the JSON file containing HackerNews data
     """
+    print("Running HackerNews Parser V1...")
     parser = HackerNewsParserV1(Path(data_file))
     data = parser.parse()
     print_news_data(data)

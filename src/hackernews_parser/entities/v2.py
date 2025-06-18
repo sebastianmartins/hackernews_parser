@@ -116,6 +116,7 @@ class HackerNewsStory(V1Story):
         Returns:
             HackerNewsStory: A new v2 story with the v1 data and optional sentiment
         """
+        # Otherwise comments are of type V1Comment, not HackerNewsComment.
         v2_comments = [
             HackerNewsComment(**asdict(comment)) for comment in v1_story.comments
         ]

@@ -54,7 +54,7 @@ Example data structure:
 """
 
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from hackernews_parser.entities.v2 import (
     DatasetMetrics,
@@ -143,7 +143,7 @@ class HackerNewsParserV2(HackerNewsParserV1):
         if sentiment:
             sentiment = self._parse_sentiment(sentiment)
         else:
-            sentiment = None
+            sentiment = SentimentAnalysis(0.0, 0.0, [])
         relationships = story_data.get("relationships", None)
         if relationships:
             relationships = self._parse_relationships(relationships)
@@ -163,7 +163,7 @@ class HackerNewsParserV2(HackerNewsParserV1):
             relationships=relationships,
         )
 
-    def parse(self) -> HackerNewsData:
+    def parse(self, data: Optional[Dict[str, Any]] = None) -> HackerNewsData:
         """
         Parse the complete dataset from the data file.
 
@@ -175,7 +175,7 @@ class HackerNewsParserV2(HackerNewsParserV1):
             json.JSONDecodeError: If the file contains invalid JSON
             KeyError: If required fields are missing from the data
         """
-        data = self._load_data()
+        data = self._load_data(data)
         stories = [self._parse_story(story) for story in data["stories"]]
         metrics = data.get("metrics", None)
         if metrics:
@@ -206,7 +206,6 @@ def print_news_data(data: HackerNewsData):
     Args:
         data (HackerNewsData): The parsed HackerNews dataset to display
     """
-    print("--------------------------------")
     print(f"Parsed {len(data.stories)} stories from version {data.version}")
     if data.metrics:
         print("Dataset metrics:")
@@ -237,6 +236,7 @@ def main(data_file: str):
     Args:
         data_file (str): Path to the JSON file containing HackerNews data
     """
+    print("Running HackerNews Parser V2...")
     parser = HackerNewsParserV2(Path(data_file))
     data = parser.parse()
     print_news_data(data)
