@@ -53,14 +53,11 @@ Example data structure:
 }
 """
 
-import json
 from dataclasses import dataclass
-from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from .hackernews_parser_v1 import HackerNewsComment as V1Comment
-from .hackernews_parser_v1 import HackerNewsData as V1Data
 from .hackernews_parser_v1 import HackerNewsParserV1
 from .hackernews_parser_v1 import HackerNewsStory as V1Story
 
@@ -142,7 +139,8 @@ class StoryRelationships:
 
 @dataclass
 class HackerNewsStory:
-    """
+    """HackerNews data structure with sentiment analysis and relationship metrics.
+
     Represents a story in the HackerNews data structure with sentiment analysis
     and relationship metrics. Extends the v1 story structure with additional
     sentiment and relationship information.
@@ -361,7 +359,7 @@ if __name__ == "__main__":
     parser = HackerNewsParserV2(Path("data/hackernews_v2.json"))
     data = parser.parse()
     print(f"Parsed {len(data.stories)} stories from version {data.version}")
-    print(f"Dataset metrics:")
+    print("Dataset metrics:")
     print(f"- Total stories: {data.metrics.total_stories}")
     print(f"- Total comments: {data.metrics.total_comments}")
     print(f"- Average sentiment: {data.metrics.avg_sentiment:.2f}")
@@ -371,7 +369,8 @@ if __name__ == "__main__":
         print(f"\nStory: {story.title}")
         print(f"Author: {story.author}")
         print(
-            f"Sentiment: {story.sentiment.score:.2f} ({', '.join(story.sentiment.aspects)})"
+            f"Sentiment: {story.sentiment.score:.2f} "
+            f"({', '.join(story.sentiment.aspects)})"
         )
         print(f"Comments: {len(story.comments)}")
         print(f"Engagement: {story.relationships.engagement_score:.2f}")
