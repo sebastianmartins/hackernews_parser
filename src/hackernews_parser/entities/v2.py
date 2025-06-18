@@ -119,6 +119,18 @@ class HackerNewsStory(V1Story):
         v2_comments = [
             HackerNewsComment.from_v1(comment) for comment in v1_story.comments
         ]
+        comment_count = len(v2_comments)
+        if comment_count > 0:
+            engagement_score = (
+                sum(comment.sentiment.score for comment in v2_comments) / comment_count
+            )
+            comment_sentiment_avg = (
+                sum(comment.sentiment.score for comment in v2_comments) / comment_count
+            )
+        else:
+            engagement_score = 0.0
+            comment_sentiment_avg = 0.0
+
         return cls(
             id=v1_story.id,
             title=v1_story.title,
@@ -131,9 +143,9 @@ class HackerNewsStory(V1Story):
             comments=v2_comments,
             sentiment=sentiment or SentimentAnalysis(0.0, 0.0, []),
             relationships=StoryRelationships(
-                comment_count=len(v2_comments),
-                engagement_score=0.0,  # Default value, should be calculated
-                comment_sentiment_avg=0.0,  # Default value, should be calculated
+                comment_count=comment_count,
+                engagement_score=engagement_score,
+                comment_sentiment_avg=comment_sentiment_avg,
             ),
         )
 
