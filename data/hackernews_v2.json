@@ -1,0 +1,89 @@
+{
+  "version": "2.0",
+  "timestamp": "2024-03-14T12:00:00Z",
+  "stories": [
+    {
+      "id": "123456",
+      "title": "The Future of AI Development",
+      "url": "https://example.com/ai-future",
+      "domain": "example.com",
+      "author": "tech_enthusiast",
+      "timestamp": "2024-03-14T10:00:00Z",
+      "points": 256,
+      "rank": 1,
+      "sentiment": {
+        "score": 0.8,
+        "confidence": 0.95,
+        "aspects": ["positive", "informative", "forward-looking"]
+      },
+      "comments": [
+        {
+          "id": "c1",
+          "author": "ai_researcher",
+          "timestamp": "2024-03-14T11:00:00Z",
+          "text": "This is a fascinating development in AI research.",
+          "sentiment": {
+            "score": 0.6,
+            "confidence": 0.85,
+            "aspects": ["neutral", "questioning", "concerned"]
+          }
+        },
+        {
+          "id": "c2",
+          "author": "ethics_philosopher",
+          "timestamp": "2024-03-14T11:15:00Z",
+          "text": "I agree, but what about the ethical implications?",
+          "sentiment": {
+            "score": 0.6,
+            "confidence": 0.85,
+            "aspects": ["neutral", "questioning", "concerned"]
+          }
+        }
+      ],
+      "relationships": {
+        "comment_count": 2,
+        "engagement_score": 0.75,
+        "comment_sentiment_avg": 0.6
+      }
+    },
+    {
+      "id": "123457",
+      "title": "New Programming Language Released",
+      "url": "https://example.com/new-lang",
+      "domain": "example.com",
+      "author": "language_designer",
+      "timestamp": "2024-03-14T09:00:00Z",
+      "points": 128,
+      "rank": 2,
+      "sentiment": {
+        "score": 0.7,
+        "confidence": 0.88,
+        "aspects": ["positive", "comparative", "technical"]
+      },
+      "comments": [
+        {
+          "id": "c3",
+          "author": "python_lover",
+          "timestamp": "2024-03-14T09:30:00Z",
+          "text": "Python's simplicity and ecosystem are still unmatched for many use cases.",
+          "sentiment": {
+            "score": 0.5,
+            "confidence": 0.82,
+            "aspects": ["defensive", "practical", "balanced"]
+          }
+        }
+      ],
+      "relationships": {
+        "comment_count": 1,
+        "engagement_score": 0.65,
+        "comment_sentiment_avg": 0.5
+      }
+    }
+  ],
+  "metrics": {
+    "total_stories": 2,
+    "total_comments": 3,
+    "avg_sentiment": 0.73,
+    "engagement_score": 0.75
+  }
+} 

@@ -1,0 +1,41 @@
+{
+    "version": "1.0",
+    "timestamp": "2024-03-14T12:00:00Z",
+    "stories": [
+        {
+            "id": "123456",
+            "title": "The Future of AI Development",
+            "url": "https://example.com/ai-future",
+            "domain": "example.com",
+            "author": "tech_enthusiast",
+            "timestamp": "2024-03-14T10:00:00Z",
+            "points": 256,
+            "rank": 1,
+            "comments": [
+                {
+                    "id": "c1",
+                    "author": "ai_researcher",
+                    "timestamp": "2024-03-14T11:00:00Z",
+                    "text": "This is a fascinating development in AI research."
+                },
+                {
+                    "id": "c2",
+                    "author": "ethics_philosopher",
+                    "timestamp": "2024-03-14T11:15:00Z",
+                    "text": "I agree, but what about the ethical implications?"
+                }
+            ]
+        },
+        {
+            "id": "123457",
+            "title": "New Programming Language Released",
+            "url": "https://example.com/new-lang",
+            "domain": "example.com",
+            "author": "language_designer",
+            "timestamp": "2024-03-14T09:00:00Z",
+            "points": 128,
+            "rank": 2,
+            "comments": []
+        }
+    ]
+} 
