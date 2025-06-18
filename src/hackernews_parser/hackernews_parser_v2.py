@@ -132,19 +132,21 @@ class HackerNewsParserV2(HackerNewsParserV1):
         Returns:
             HackerNewsStory: Parsed story object with sentiment and relationships
         """
-        v1_story = super()._parse_story(story_data)
+        v2_comments = [
+            self._parse_comment(comment) for comment in story_data.get("comments", [])
+        ]
         sentiment = self._parse_sentiment(story_data["sentiment"])
         relationships = self._parse_relationships(story_data["relationships"])
         return HackerNewsStory(
-            id=v1_story.id,
-            title=v1_story.title,
-            url=v1_story.url,
-            domain=v1_story.domain,
-            author=v1_story.author,
-            timestamp=v1_story.timestamp,
-            points=v1_story.points,
-            rank=v1_story.rank,
-            comments=v1_story.comments,
+            id=story_data["id"],
+            title=story_data["title"],
+            url=story_data["url"],
+            domain=story_data["domain"],
+            author=story_data["author"],
+            timestamp=story_data["timestamp"],
+            points=story_data["points"],
+            rank=story_data["rank"],
+            comments=v2_comments,
             sentiment=sentiment,
             relationships=relationships,
         )
