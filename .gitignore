@@ -92,6 +92,7 @@ target/
 
 # IDE settings
 # .vscode/
+.plan
 
 # virtual environment folder
 .venv

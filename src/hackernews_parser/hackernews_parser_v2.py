@@ -179,10 +179,17 @@ class HackerNewsParserV2(HackerNewsParserV1):
         )
 
 
-if __name__ == "__main__":
-    # Example usage
-    parser = HackerNewsParserV2(Path("data/hackernews_v2.json"))
-    data = parser.parse()
+def print_news_data(data: HackerNewsData):
+    """
+    Print a formatted summary of the parsed HackerNews data with v2 features.
+
+    Displays dataset metrics including sentiment analysis and engagement scores,
+    as well as detailed information for each story including sentiment and
+    relationships.
+
+    Args:
+        data (HackerNewsData): The parsed HackerNews dataset to display
+    """
     print(f"Parsed {len(data.stories)} stories from version {data.version}")
     print("Dataset metrics:")
     print(f"- Total stories: {data.metrics.total_stories}")
@@ -199,3 +206,17 @@ if __name__ == "__main__":
         )
         print(f"Comments: {len(story.comments)}")
         print(f"Engagement: {story.relationships.engagement_score:.2f}")
+
+
+def main(data_file: str):
+    """
+    Main function to parse and display HackerNews data from a file using v2 parser.
+
+    Uses the enhanced v2 parser to handle sentiment analysis and relationship metrics.
+
+    Args:
+        data_file (str): Path to the JSON file containing HackerNews data
+    """
+    parser = HackerNewsParserV2(Path(data_file))
+    data = parser.parse()
+    print_news_data(data)

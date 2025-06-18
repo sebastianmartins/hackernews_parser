@@ -1,0 +1,45 @@
+{
+  "version": "2.0",
+  "timestamp": "2024-03-14T12:00:00Z",
+  "stories": [
+      {
+          "id": "123",
+          "title": "Story title",
+          "url": "Story URL",
+          "domain": "Domain name",
+          "author": "Author name",
+          "timestamp": "2024-03-14T10:00:00Z",
+          "points": 123,
+          "rank": 1,
+          "sentiment": {
+              "score": 0.8,
+              "confidence": 0.95,
+              "aspects": ["positive", "informative"]
+          },
+          "comments": [
+              {
+                  "id": "c1",
+                  "author": "Comment author",
+                  "timestamp": "2024-03-14T11:00:00Z",
+                  "text": "Comment text",
+                  "sentiment": {
+                      "score": 0.6,
+                      "confidence": 0.85,
+                      "aspects": ["neutral", "questioning"]
+                  }
+              }
+          ],
+          "relationships": {
+              "comment_count": 1,
+              "engagement_score": 0.75,
+              "comment_sentiment_avg": 0.6
+          }
+      }
+  ],
+  "metrics": {
+      "total_stories": 1,
+      "total_comments": 1,
+      "avg_sentiment": 0.7,
+      "engagement_score": 0.75
+  }
+}

@@ -1,0 +1,24 @@
+{
+    "version": "1.0",
+    "timestamp": "2024-03-14T12:00:00Z",
+    "stories": [
+        {
+            "id": "123",
+            "title": "Story title",
+            "url": "Story URL",
+            "domain": "Domain name",
+            "author": "Author name",
+            "timestamp": "2024-03-14T10:00:00Z",
+            "points": 123,
+            "rank": 1,
+            "comments": [
+                {
+                    "id": "c1",
+                    "author": "Comment author",
+                    "timestamp": "2024-03-14T11:00:00Z",
+                    "text": "Comment text"
+                }
+            ]
+        }
+    ]
+}

@@ -139,12 +139,27 @@ class HackerNewsParserV1:
         )
 
 
-if __name__ == "__main__":
-    # Example usage
-    parser = HackerNewsParserV1(Path("data/hackernews_v1.json"))
-    data = parser.parse()
+def print_news_data(data: HackerNewsData):
+    """
+    Print a formatted summary of the parsed HackerNews data.
+
+    Args:
+        data (HackerNewsData): The parsed HackerNews dataset to display
+    """
     print(f"Parsed {len(data.stories)} stories from version {data.version}")
     for story in data.stories:
         print(f"\nStory: {story.title}")
         print(f"Author: {story.author}")
         print(f"Comments: {len(story.comments)}")
+
+
+def main(data_file: str):
+    """
+    Main function to parse and display HackerNews data from a file.
+
+    Args:
+        data_file (str): Path to the JSON file containing HackerNews data
+    """
+    parser = HackerNewsParserV1(Path(data_file))
+    data = parser.parse()
+    print_news_data(data)

@@ -6,6 +6,9 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = []
 
+[project.scripts]
+hackernews-parser = "hackernews_parser.__main__:main"
+
 [dependency-groups]
 dev = [
     "bandit>=1.8.5",
