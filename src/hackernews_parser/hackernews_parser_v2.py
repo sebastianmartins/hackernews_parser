@@ -119,7 +119,11 @@ class HackerNewsParserV2(HackerNewsParserV1):
             HackerNewsComment: Parsed comment object with sentiment
         """
         v1_comment = super()._parse_comment(comment_data)
-        sentiment = self._parse_sentiment(comment_data["sentiment"])
+        sentiment = comment_data.get("sentiment", None)
+        if sentiment:
+            sentiment = self._parse_sentiment(sentiment)
+        else:
+            sentiment = None
         return HackerNewsComment.from_v1(v1_comment, sentiment)
 
     def _parse_story(self, story_data: Dict[str, Any]) -> HackerNewsStory:
@@ -135,8 +139,16 @@ class HackerNewsParserV2(HackerNewsParserV1):
         v2_comments = [
             self._parse_comment(comment) for comment in story_data.get("comments", [])
         ]
-        sentiment = self._parse_sentiment(story_data["sentiment"])
-        relationships = self._parse_relationships(story_data["relationships"])
+        sentiment = story_data.get("sentiment", None)
+        if sentiment:
+            sentiment = self._parse_sentiment(sentiment)
+        else:
+            sentiment = None
+        relationships = story_data.get("relationships", None)
+        if relationships:
+            relationships = self._parse_relationships(relationships)
+        else:
+            relationships = None
         return HackerNewsStory(
             id=story_data["id"],
             title=story_data["title"],
@@ -165,12 +177,16 @@ class HackerNewsParserV2(HackerNewsParserV1):
         """
         data = self._load_data()
         stories = [self._parse_story(story) for story in data["stories"]]
-        metrics = DatasetMetrics(
-            total_stories=data["metrics"]["total_stories"],
-            total_comments=data["metrics"]["total_comments"],
-            avg_sentiment=data["metrics"]["avg_sentiment"],
-            engagement_score=data["metrics"]["engagement_score"],
-        )
+        metrics = data.get("metrics", None)
+        if metrics:
+            metrics = DatasetMetrics(
+                total_stories=metrics["total_stories"],
+                total_comments=metrics["total_comments"],
+                avg_sentiment=metrics["avg_sentiment"],
+                engagement_score=metrics["engagement_score"],
+            )
+        else:
+            metrics = None
         return HackerNewsData(
             version=data["version"],
             timestamp=data["timestamp"],
@@ -190,22 +206,26 @@ def print_news_data(data: HackerNewsData):
     Args:
         data (HackerNewsData): The parsed HackerNews dataset to display
     """
+    print("--------------------------------")
     print(f"Parsed {len(data.stories)} stories from version {data.version}")
-    print("Dataset metrics:")
-    print(f"- Total stories: {data.metrics.total_stories}")
-    print(f"- Total comments: {data.metrics.total_comments}")
-    print(f"- Average sentiment: {data.metrics.avg_sentiment:.2f}")
-    print(f"- Engagement score: {data.metrics.engagement_score:.2f}")
+    if data.metrics:
+        print("Dataset metrics:")
+        print(f"- Total stories: {data.metrics.total_stories}")
+        print(f"- Total comments: {data.metrics.total_comments}")
+        print(f"- Average sentiment: {data.metrics.avg_sentiment:.2f}")
+        print(f"- Engagement score: {data.metrics.engagement_score:.2f}")
 
     for story in data.stories:
         print(f"\nStory: {story.title}")
         print(f"Author: {story.author}")
-        print(
-            f"Sentiment: {story.sentiment.score:.2f} "
-            f"({', '.join(story.sentiment.aspects)})"
-        )
+        if story.sentiment:
+            print(
+                f"Sentiment: {story.sentiment.score:.2f} "
+                f"({', '.join(story.sentiment.aspects)})"
+            )
         print(f"Comments: {len(story.comments)}")
-        print(f"Engagement: {story.relationships.engagement_score:.2f}")
+        if story.relationships:
+            print(f"Engagement: {story.relationships.engagement_score:.2f}")
 
 
 def main(data_file: str):

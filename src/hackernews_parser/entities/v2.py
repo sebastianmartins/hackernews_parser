@@ -178,9 +178,10 @@ class HackerNewsData(V1Data):
         version (str): Version of the data format
         timestamp (str): When the data was scraped
         stories (Sequence[HackerNewsStory]): Sequence of stories
-        metrics (DatasetMetrics): Overall dataset metrics
+        metrics (Optional[DatasetMetrics]): Overall dataset metrics.
+            Optional for backward compatibility with V1 data.
     """
 
     # Override the stories field to specify V2 HackerNewsStory type
     stories: Sequence["HackerNewsStory"]
-    metrics: DatasetMetrics
+    metrics: Optional[DatasetMetrics]
