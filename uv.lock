@@ -131,6 +131,17 @@ wheels = [
 ]
 
 [[package]]
+name = "flake8-pyproject"
+version = "1.2.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "flake8" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5f/1d/635e86f9f3a96b7ea9e9f19b5efe17a987e765c39ca496e4a893bb999112/flake8_pyproject-1.2.3-py3-none-any.whl", hash = "sha256:6249fe53545205af5e76837644dc80b4c10037e73a0e5db87ff562d75fb5bd4a", size = 4756, upload-time = "2023-03-21T20:51:38.911Z" },
+]
+
+[[package]]
 name = "hackernews-parser"
 version = "0.1.0"
 source = { editable = "." }
@@ -140,6 +151,7 @@ dev = [
     { name = "bandit" },
     { name = "black" },
     { name = "flake8" },
+    { name = "flake8-pyproject" },
     { name = "isort" },
     { name = "mypy" },
     { name = "pre-commit" },
@@ -155,6 +167,7 @@ dev = [
     { name = "bandit", specifier = ">=1.8.5" },
     { name = "black", specifier = ">=25.1.0" },
     { name = "flake8", specifier = ">=7.2.0" },
+    { name = "flake8-pyproject", specifier = ">=1.2.3" },
     { name = "isort", specifier = ">=6.0.1" },
     { name = "mypy", specifier = ">=1.16.1" },
     { name = "pre-commit", specifier = ">=4.2.0" },

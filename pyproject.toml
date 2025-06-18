@@ -11,6 +11,7 @@ dev = [
     "bandit>=1.8.5",
     "black>=25.1.0",
     "flake8>=7.2.0",
+    "flake8-pyproject>=1.2.3",
     "isort>=6.0.1",
     "mypy>=1.16.1",
     "pre-commit>=4.2.0",
@@ -34,6 +35,10 @@ target-version = ['py313']
 profile = "black"
 line_length = 88
 
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+
 [tool.bandit]
 exclude_dirs = ["tests"]
 skips = ["B101"]
@@ -46,4 +51,33 @@ ignore_missing_imports = true
 
 [tool.pydocstyle]
 convention = "google"
-add_ignore = ["D100", "D104", "D212"]
+add_ignore = ["D100", "D104", "D212", "D205"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
