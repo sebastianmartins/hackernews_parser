@@ -181,4 +181,6 @@ class HackerNewsData(V1Data):
         metrics (DatasetMetrics): Overall dataset metrics
     """
 
+    # Override the stories field to specify V2 HackerNewsStory type
+    stories: Sequence["HackerNewsStory"]
     metrics: DatasetMetrics
