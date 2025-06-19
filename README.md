@@ -78,6 +78,7 @@ uv sync --dev
 2. Install pre-commit hooks
 
 ```bash
+source .venv/bin/activate
 uv run pre-commit install
 ```
 
@@ -88,10 +89,6 @@ uv run pytest
 ```
 
 4. Run the parsers from main point
-
-```bash
-uv pip install -e .
-```
 
 Running version 1 parser:
 ```bash
