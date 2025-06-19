@@ -1,7 +1,8 @@
-from typing import Any, Dict
+from typing import Any, Dict, Union
 
 import pytest
 
+from hackernews_parser.entities.v1 import HackerNewsComment as V1Comment
 from hackernews_parser.entities.v2 import (
     DatasetMetrics,
     HackerNewsComment,
@@ -25,7 +26,7 @@ from tests.test_hackernews_parser_v1 import (
 
 def assert_equal_sentiment(
     sentiment_v2: SentimentAnalysis, sentiment_json: Dict[str, Any]
-):
+) -> None:
     assert sentiment_v2.score == sentiment_json["score"]
     assert sentiment_v2.confidence == sentiment_json["confidence"]
     assert sentiment_v2.aspects == sentiment_json["aspects"]
@@ -33,7 +34,7 @@ def assert_equal_sentiment(
 
 def assert_equal_story_relationships(
     story_relationships_v2: StoryRelationships, story_relationships_json: Dict[str, Any]
-):
+) -> None:
     assert (
         story_relationships_v2.comment_count
         == story_relationships_json["comment_count"]
@@ -48,18 +49,26 @@ def assert_equal_story_relationships(
     )
 
 
-def assert_equal_comment(comment_v2: HackerNewsComment, comment_json: Dict[str, Any]):
+def assert_equal_comment(
+    comment_v2: Union[HackerNewsComment, V1Comment], comment_json: Dict[str, Any]
+) -> None:
     assert comment_v2.id == comment_json["id"]
     assert comment_v2.author == comment_json["author"]
     assert comment_v2.timestamp == comment_json["timestamp"]
     assert comment_v2.text == comment_json["text"]
-    assert_equal_sentiment(comment_v2.sentiment, comment_json["sentiment"])
+    # Only check sentiment if it's a v2 comment
+    if isinstance(comment_v2, HackerNewsComment):
+        assert_equal_sentiment(comment_v2.sentiment, comment_json["sentiment"])
 
 
-def assert_equal_metrics(metrics_v2: DatasetMetrics, metrics_json: Dict[str, Any]):
+def assert_equal_metrics(
+    metrics_v2: Union[DatasetMetrics, None], metrics_json: Dict[str, Any]
+):
     if metrics_json is None:
         assert metrics_v2 is None
         return
+    # At this point, metrics_json is not None, so metrics_v2 should also not be None
+    assert metrics_v2 is not None
     assert metrics_v2.total_stories == metrics_json["total_stories"]
     assert metrics_v2.total_comments == metrics_json["total_comments"]
     assert metrics_v2.avg_sentiment == metrics_json["avg_sentiment"]
@@ -68,7 +77,7 @@ def assert_equal_metrics(metrics_v2: DatasetMetrics, metrics_json: Dict[str, Any
 
 def assert_equal_hackernews_data(
     hackernews_data: HackerNewsData, json_data: Dict[str, Any]
-):
+) -> None:
     assert hackernews_data.version == json_data["version"]
     assert hackernews_data.timestamp == json_data["timestamp"]
     assert len(hackernews_data.stories) == len(json_data["stories"])
