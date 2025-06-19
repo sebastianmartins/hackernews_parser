@@ -176,8 +176,9 @@ WHY: the function recieves an optional parameter that can have scores.
 
 # TODO:
 1. Refactor project using better versioning pattern: either `Plugin Architecture` or `Feature-Based Parsing`.
-3. Add validation between metrics and individual stories. Raising errors if they don't match.
-2. Improve error messages for missing fields in the data.
+2. Add validation between metrics and individual stories. Raising errors if they don't match.
+3. **Inconsistent error handling**: Improve error messages for missing fields in the data.
+4. **Missing Input Validation**: Add validation for the input data.
 
 ## License
 
