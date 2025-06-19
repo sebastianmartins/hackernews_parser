@@ -73,14 +73,15 @@ Each parser version builds on the previous one, maintaining backward compatibili
 
 ```bash
 uv sync --dev
+source .venv/bin/activate
 ```
 
-2. Install pre-commit hooks
+2. (Optional) Install pre-commit hooks
 
 ```bash
-source .venv/bin/activate
 uv run pre-commit install
 ```
+**NOTE:** this will show an error if you are not in a Git repository directory.
 
 3. Run the tests
 
