@@ -17,11 +17,15 @@ COPY README.md ./
 # Install dependencies and the package
 RUN uv sync --frozen --no-dev
 
+# Set environment variables for Docker deployment
+ENV HOST=0.0.0.0
+ENV PORT=8000
+
 # Expose the API port
 EXPOSE 8000
 
 # Set the default command to run the API server
-ENTRYPOINT ["uv", "run", "python", "-c", "from hackernews_parser.server import run_server; run_server(host='0.0.0.0')"]
+ENTRYPOINT ["uv", "run", "python", "-m", "hackernews_parser.server"]
 
 # Default arguments
 CMD []

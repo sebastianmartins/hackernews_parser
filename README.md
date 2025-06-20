@@ -39,9 +39,22 @@ uv run hackernews-api
 
 The API will be available at `http://localhost:8000` with interactive documentation at `http://localhost:8000/docs`.
 
-To bind to all interfaces (e.g., for Docker or remote access):
+**Configuration via Environment Variables:**
 ```bash
-uv run python -c "from hackernews_parser.server import run_server; run_server(host='0.0.0.0')"
+# Bind to all interfaces (useful for containers or remote access)
+HOST=0.0.0.0 uv run hackernews-api
+
+# Use a different port
+PORT=3000 uv run hackernews-api
+
+# Combine multiple settings
+HOST=0.0.0.0 PORT=3000 uv run hackernews-api
+```
+
+**Alternative direct method:**
+```bash
+# For direct server startup with custom settings
+uv run python -c "from hackernews_parser.server import run_server; run_server(host='0.0.0.0', port=3000)"
 ```
 
 Send data to parse:
@@ -152,7 +165,14 @@ docker build -t hackernews-parser .
 
 2. Run the API server
 ```bash
+# Default: binds to 0.0.0.0:8000 inside container
 docker run --rm -p 8000:8000 hackernews-parser
+
+# Custom port mapping (container uses 8000, host uses 3000)
+docker run --rm -p 3000:8000 hackernews-parser
+
+# Override container port via environment variables
+docker run --rm -p 9000:9000 -e PORT=9000 hackernews-parser
 ```
 
 3. Test the API
