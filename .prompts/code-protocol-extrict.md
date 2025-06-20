@@ -1,0 +1,8 @@
+### CODING PROTOCOL ###
+Coding instructions:
+- Write the absolute minimum code required
+- No sweeping changes
+- No unrelated edits - focus on just the task you’re on
+- Make code precise, modular, testable
+- Don’t break existing functionality
+- If I need to do anything (e.g. API keys/AWS config), tell me clearly.
