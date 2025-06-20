@@ -4,10 +4,15 @@ version = "0.1.0"
 description = "hackernews parser codebase"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "requests>=2.31.0",
+]
 
 [project.scripts]
 hackernews-parser = "hackernews_parser.__main__:main"
+hackernews-api = "hackernews_parser.server:run_server"
 
 [dependency-groups]
 dev = [
@@ -15,6 +20,7 @@ dev = [
     "black>=25.1.0",
     "flake8>=7.2.0",
     "flake8-pyproject>=1.2.3",
+    "httpx>=0.25.0",
     "isort>=6.0.1",
     "mypy>=1.16.1",
     "pre-commit>=4.2.0",

@@ -3,9 +3,15 @@
 A Python-based parser for JSON data obtained from scraping [Hacker News](https://news.ycombinator.com/).
 Everything here (including this README) was produced with the assistance of AI.
 
-This project provides two versions of parsers that convert raw JSON data into strongly-typed Python objects, making it easier to work with Hacker News data programmatically.
+This project provides both a FastAPI REST API and command-line parsers that convert raw JSON data into strongly-typed Python objects, making it easier to work with Hacker News data programmatically.
 
 ## Features
+
+- **🚀 FastAPI REST API**: HTTP endpoints for parsing HackerNews data
+  - Automatic version-based routing (v1 and v2)
+  - Interactive API documentation
+  - Health checks and error handling
+  - Docker support
 
 - **Version 1 Parser**: Handles basic story and comment data
   - Story metadata (title, URL, domain, author, points, rank)
@@ -20,8 +26,32 @@ This project provides two versions of parsers that convert raw JSON data into st
 ## Prerequisites
 
 - Python 3.13 or higher
+- Docker (optional, for containerized deployment)
 
-## Usage
+## Quick Start
+
+### 🚀 API Usage (Recommended)
+
+Start the API server:
+```bash
+uv run hackernews-api
+```
+
+The API will be available at `http://localhost:8000` with interactive documentation at `http://localhost:8000/docs`.
+
+To bind to all interfaces (e.g., for Docker or remote access):
+```bash
+uv run python -c "from hackernews_parser.server import run_server; run_server(host='0.0.0.0')"
+```
+
+Send data to parse:
+```bash
+curl -X POST "http://localhost:8000/parse" \
+  -H "Content-Type: application/json" \
+  -d @data/hackernews_v1.json
+```
+
+### 📋 CLI Usage
 
 
 
@@ -111,29 +141,51 @@ uv run pre-commit run --all-files
 
 
 
-## Run on docker
+## 🐳 Run with Docker
+
+### API Server (Default)
 
 1. Build the docker image
-
 ```bash
 docker build -t hackernews-parser .
 ```
 
-2. Run the docker container (using local file)
-
-* Show help
+2. Run the API server
 ```bash
-docker run --rm hackernews-parser --help
+docker run --rm -p 8000:8000 hackernews-parser
 ```
 
-* Run version 1 parser (Mounting directory)
+3. Test the API
 ```bash
-docker run --rm -v $(pwd)/data/hackernews_v1.json:/data/input.json hackernews-parser --version 1 --data-file /data/input.json
+# Health check
+curl http://localhost:8000/health
+
+# Parse v1 data
+curl -X POST "http://localhost:8000/parse" \
+  -H "Content-Type: application/json" \
+  -d @data/hackernews_v1.json
+
+# Parse v2 data
+curl -X POST "http://localhost:8000/parse" \
+  -H "Content-Type: application/json" \
+  -d @data/hackernews_v2.json
 ```
 
-* Run version 2 parser (Mounting directory)
+### CLI Parser (Alternative)
+
+Run the CLI parser by overriding the entrypoint:
+
 ```bash
-docker run --rm -v $(pwd)/data/hackernews_v2.json:/data/input.json hackernews-parser --version 2 --data-file /data/input.json
+# Show help
+docker run --rm --entrypoint "uv" hackernews-parser run hackernews-parser --help
+
+# Run version 1 parser
+docker run --rm -v $(pwd)/data:/data --entrypoint "uv" \
+  hackernews-parser run hackernews-parser --version 1 --data-file /data/hackernews_v1.json
+
+# Run version 2 parser
+docker run --rm -v $(pwd)/data:/data --entrypoint "uv" \
+  hackernews-parser run hackernews-parser --version 2 --data-file /data/hackernews_v2.json
 ```
 
 
@@ -181,3 +233,66 @@ WHY: the function recieves an optional parameter that can have scores.
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+
+## 🚀 API Reference
+
+### Available Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST   | `/parse` | Parse HackerNews JSON data (auto-detects version) |
+| GET    | `/health` | Health check endpoint |
+| GET    | `/` | Root endpoint with API information |
+| GET    | `/docs` | Interactive Swagger UI documentation |
+
+### API Usage Examples
+
+**Parse Version 1.0 Data:**
+```bash
+curl -X POST "http://localhost:8000/parse" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "version": "1.0",
+    "timestamp": "2024-03-14T12:00:00Z",
+    "stories": [...]
+  }'
+```
+
+**Parse Version 2.0 Data:**
+```bash
+curl -X POST "http://localhost:8000/parse" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "version": "2.0",
+    "timestamp": "2024-03-14T12:00:00Z",
+    "stories": [...],
+    "metrics": {...}
+  }'
+```
+
+**Using Example Files:**
+```bash
+# Parse v1 example data
+curl -X POST "http://localhost:8000/parse" \
+  -H "Content-Type: application/json" \
+  -d @data/hackernews_v1.json
+
+# Parse v2 example data
+curl -X POST "http://localhost:8000/parse" \
+  -H "Content-Type: application/json" \
+  -d @data/hackernews_v2.json
+```
+
+**Run the demo script:**
+```bash
+uv run python examples/api_usage.py
+```
+
+**Access interactive documentation:**
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+### Response Format
+
+The API automatically detects the version from your JSON data and routes to the appropriate parser. The response maintains the same structure as the input but with parsed and validated data.

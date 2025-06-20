@@ -17,11 +17,11 @@ COPY README.md ./
 # Install dependencies and the package
 RUN uv sync --frozen --no-dev
 
-# Create data directory for mounted files
-RUN mkdir -p /data
+# Expose the API port
+EXPOSE 8000
 
-# Set the default command to run the parser
-ENTRYPOINT ["uv", "run", "hackernews-parser"]
+# Set the default command to run the API server
+ENTRYPOINT ["uv", "run", "python", "-c", "from hackernews_parser.server import run_server; run_server(host='0.0.0.0')"]
 
-# Default arguments (can be overridden)
-CMD ["--help"]
+# Default arguments
+CMD []
